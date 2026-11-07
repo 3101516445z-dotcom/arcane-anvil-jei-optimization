@@ -1,6 +1,7 @@
 package io.github.arcaneanviljeioptimization.mixin;
 
 import io.github.arcaneanviljeioptimization.LazyPageList;
+import io.github.arcaneanviljeioptimization.LayoutCacheLifecycle;
 import io.github.arcaneanviljeioptimization.PagedRecipeLayouts;
 import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.common.Internal;
@@ -33,13 +34,14 @@ public abstract class RecipeGuiLogicMixin {
     private <T> void arcaneOptimization$lazy(Set<RecipeSorterStage> sorters, IFocusedRecipes<T> focused,
             AbstractContainerMenu menu, Player player, CallbackInfoReturnable<IRecipeLayoutList> cir) {
         var category = focused.getRecipeCategory();
+        LayoutCacheLifecycle.clear();
         if (!category.getRecipeType().getUid().toString().equals("irons_spellbooks:arcane_anvil")) return;
         // 保留原配方对象，让铁魔法及附属的过滤逻辑继续生效。
         var recipes = focused.getRecipes();
         var focuses = state.getFocuses();
         var manager = recipeManager;
         var factory = recipeLayoutFactory;
-        List<RecipeLayoutWithButtons<?>> layouts = new LazyPageList<>(recipes.size(), index -> {
+        LazyPageList<RecipeLayoutWithButtons<?>> layouts = new LazyPageList<>(recipes.size(), index -> {
             T recipe = recipes.get(index);
             var layout = manager.createRecipeLayoutDrawable(category, recipe, focuses).orElseGet(() -> {
                 manager.hideRecipes(category.getRecipeType(), List.of(recipe));
