@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+[[mods]]
+modId="arcane_anvil_jei_optimization"
+version="${mod_version}"
+displayName="Arcane Anvil JEI Optimization"
+displayTest="IGNORE_ALL_VERSION"
+description='''奥术铁砧 JEI 优化。
+On-demand JEI recipe layouts for Iron's Spells arcane anvil. Client-side display optimization.'''
+[[dependencies.arcane_anvil_jei_optimization]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.arcane_anvil_jei_optimization]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.arcane_anvil_jei_optimization]]
+modId="irons_spellbooks"
+mandatory=true
+versionRange="[1.20.1-3.16.3]"
+ordering="AFTER"
+side="CLIENT"
+[[dependencies.arcane_anvil_jei_optimization]]
+modId="jei"
+mandatory=true
+versionRange="[15.20.0.132]"
+ordering="AFTER"
+side="CLIENT"

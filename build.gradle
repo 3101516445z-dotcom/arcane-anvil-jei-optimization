@@ -1,0 +1,43 @@
+plugins {
+    id 'net.minecraftforge.gradle' version '6.0.54'
+    id 'org.spongepowered.mixin' version '0.7.38'
+}
+version = '1.0.0'
+group = 'io.github.arcaneanviljeioptimization'
+base { archivesName = 'arcane-anvil-jei-optimization' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+minecraft { mappings channel: 'official', version: '1.20.1' }
+mixin {
+    add sourceSets.main, 'arcane_anvil_jei_optimization.refmap.json'
+    config 'arcane_anvil_jei_optimization.mixins.json'
+}
+repositories { mavenCentral() }
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // JEI internal GUI classes require the full Forge JAR; never bundle it.
+    compileOnly files('libs/jei-1.20.1-forge-15.20.0.132.jar')
+}
+tasks.named('jar', Jar) {
+    manifest { attributes 'MixinConfigs': 'arcane_anvil_jei_optimization.mixins.json' }
+    finalizedBy 'reobfJar'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 17 }
+tasks.register('verifyLazyPages', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.github.arcaneanviljeioptimization.LazyPageListTest'
+}
+tasks.named('check') { dependsOn 'verifyLazyPages' }
+
+tasks.named('processResources') {
+    inputs.property 'version', project.version
+    filesMatching('META-INF/mods.toml') {
+        expand 'mod_version': project.version
+    }
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
