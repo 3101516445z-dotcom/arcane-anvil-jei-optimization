@@ -23,24 +23,6 @@
 - 配方数量与页数保持原样，优化集中在打开配方页面；进入世界时的 JEI 索引加载仍沿用原流程。
 - 奥术铁砧分类按原配方顺序显示，不执行“收藏优先”和“可制作优先”排序；收藏能力沿用原版。其他分类不变。
 
-支持范围依据代表版本的客户端对照测试和接口检查确定，实测组合见 [兼容性验证](DEVELOPMENT.md#兼容性验证)。JEI 15.28.1.167 起的已检查版本改动了相关内部接口，当前版本不支持。
+当前版本支持上表列出的版本范围，暂不支持 JEI 15.28.1.167 及更新版本。
 
-## 构建
-
-使用 JDK 21 和项目自带的 Gradle 8.8 Wrapper，输出 Java 17 字节码。将 `jei-1.20.1-forge-15.20.0.132.jar` 放入 `libs/`，然后运行：
-
-Windows PowerShell：
-
-```powershell
-.\gradlew.bat clean build
-```
-
-Linux / macOS：
-
-```shell
-./gradlew clean build
-```
-
-首次构建会下载构建依赖，缓存齐全后可添加 `--offline`。产物位于 `build/libs/`，JEI 依赖不打入成品。构建自动执行分页与缓存测试。
-
-实现说明见 [DEVELOPMENT.md](DEVELOPMENT.md)，更新内容见 [CHANGELOG.md](CHANGELOG.md)。项目采用 [MIT 许可证](LICENSE)。
+更新内容见 [CHANGELOG.md](CHANGELOG.md)。项目采用 [MIT 许可证](LICENSE)。

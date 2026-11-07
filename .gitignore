@@ -5,7 +5,7 @@ run/
 dist/
 *.log
 
-# Third-party dependency (see libs/README.md)
+# Third-party dependency
 libs/*.jar
 
 # IDE and local settings
