@@ -29,6 +29,6 @@ side="CLIENT"
 [[dependencies.arcane_anvil_jei_optimization]]
 modId="jei"
 mandatory=true
-versionRange="[15.20.0.132,15.28.1.167)"
+versionRange="[15.20.0.100,15.28.1.167)"
 ordering="AFTER"
 side="CLIENT"

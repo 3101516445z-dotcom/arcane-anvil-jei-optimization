@@ -1,22 +1,30 @@
 # 版本记录
 
+## 未发布 / Unreleased
+
+### 中文
+
+- JEI 最低支持版本下调至 15.20.0.100。
+
+### English
+
+- Extended JEI support to include version 15.20.0.100.
+
 ## 1.0.2 — 2026-11-07
 
 ### 中文
 
-- 新增渐进式配方布局预加载：当前页先显示，再优先准备翻页方向的 32 页和反方向的 16 页，随后逐步缓存当前查询的其他配方。
-- 缓存上限从 64 条提高至 1,024 条，优先保留当前页和附近页；达到上限后停止远处配方的预加载。
-- 预加载在客户端主线程分批执行，每批最多创建 2 条布局，耗时预算为 1 毫秒，两批间隔至少 50 毫秒。
-- 切换查询、关闭配方界面、退出世界或更新配方数据时清理缓存和待加载任务，避免旧查询的缓存持续积压。
-- 预加载遇到异常时停止该次预热，保留按需加载页面的方式。
+- 新增奥术铁砧配方渐进式预加载，优先准备当前浏览方向及附近页面，减少连续翻页时的即时加载。
+- 配方布局缓存上限由 64 条提升至 1,024 条，优先保留当前页和附近页面。
+- 完善缓存清理，在切换查询、关闭配方界面、退出世界或更新配方数据时释放缓存。
+- 改进预加载异常处理；预加载中断时，仍可按需加载配方页面。
 
 ### English
 
-- Added incremental recipe layout preloading. The current page appears first, followed by up to 32 pages in the browsing direction and 16 pages in the opposite direction. Remaining recipes in the current query are then cached gradually.
-- Increased the cache limit from 64 to 1,024 layouts, prioritizing the current and nearby pages. Preloading distant recipes stops when the cache is full.
-- Preloading runs in small batches on the client thread, with at most 2 new layouts per batch, a 1 ms time budget, and at least 50 ms between batches.
-- Clear cached layouts and pending preload work when changing queries, closing the recipe screen, leaving a world, or updating recipe data to prevent old query caches from accumulating.
-- Stop preloading for the current query if an exception occurs, while keeping on-demand page loading available.
+- Added incremental preloading for Arcane Anvil recipes, prioritizing nearby pages and the current browsing direction to reduce on-demand loading during navigation.
+- Increased the recipe layout cache limit from 64 to 1,024 entries, with priority given to the current and nearby pages.
+- Improved cache cleanup when switching queries, closing the recipe screen, leaving a world, or updating recipe data.
+- Improved error handling during preloading. If preloading stops, recipe pages remain available through on-demand loading.
 
 ## 1.0.1 — 2026-11-07
 

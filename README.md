@@ -11,7 +11,7 @@
 | Minecraft | 1.20.1 |
 | Forge | 47.x（实测 47.4.20） |
 | Iron's Spells 'n Spellbooks | 1.20.1-3.4.0.11 ～ 1.20.1-3.16.3 |
-| JEI | 15.20.0.132 ～ 15.28.1.166 |
+| JEI | 15.20.0.100 ～ 15.28.1.166 |
 
 将 `arcane-anvil-jei-optimization-1.0.2.jar` 放入客户端 `mods`，重新启动游戏即可，服务器无需安装。
 
