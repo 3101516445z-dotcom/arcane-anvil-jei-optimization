@@ -2,7 +2,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '6.0.54'
     id 'org.spongepowered.mixin' version '0.7.38'
 }
-version = '1.0.3'
+version = '1.0.6'
 group = 'io.github.arcaneanviljeioptimization'
 base { archivesName = 'arcane-anvil-jei-optimization' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -11,12 +11,21 @@ mixin {
     add sourceSets.main, 'arcane_anvil_jei_optimization.refmap.json'
     config 'arcane_anvil_jei_optimization.mixins.json'
 }
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    exclusiveContent {
+        forRepository { maven { url = 'https://maven.blamejared.com' } }
+        filter { includeModule 'mezz.jei', 'jei-1.20.1-forge' }
+    }
+}
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.20'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    // JEI internal GUI classes require the full Forge JAR; never bundle it.
-    compileOnly files('libs/jei-1.20.1-forge-15.20.0.132.jar')
+    // 分别解析同一模块的两个版本，旧版类优先，新版补充内部接口。
+    ['15.20.0.132', '15.74.0.234'].each { jeiVersion ->
+        def jei = dependencies.create("mezz.jei:jei-1.20.1-forge:${jeiVersion}@jar")
+        compileOnly files(configurations.detachedConfiguration(jei))
+    }
 }
 tasks.named('jar', Jar) {
     manifest { attributes 'MixinConfigs': 'arcane_anvil_jei_optimization.mixins.json' }

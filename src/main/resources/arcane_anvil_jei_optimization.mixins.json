@@ -5,7 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "arcane_anvil_jei_optimization.refmap.json",
   "client": [
-    "RecipeGuiLogicMixin"
+    "RecipeGuiLogicMixin",
+    "MenuRecipeGuiLogicMixin",
+    "InterfaceFactoryMixin",
+    "NativeLayoutSortWithoutMenuMixin",
+    "NativeLayoutSortMixin",
+    "RecipeVisibilityMixin",
+    "FocusedQueryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

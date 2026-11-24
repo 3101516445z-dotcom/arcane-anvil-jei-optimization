@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.function.IntFunction;
 import java.util.function.LongSupplier;
 
-/** 客户端线程上的按需布局缓存；预热不会改变配方顺序。 */
+// 客户端线程上的按需布局缓存；预热不会改变配方顺序。
 public final class LazyPageList<T> extends AbstractList<T> {
     static final int CAPACITY = 1024;
     private static final int FORWARD_PAGES = 32;
@@ -23,15 +23,22 @@ public final class LazyPageList<T> extends AbstractList<T> {
     private long lastBatch;
     private boolean hasBatch, warming;
 
-    public LazyPageList(int size, IntFunction<T> factory) { this(size, factory, System::nanoTime); }
+    public LazyPageList(int size, IntFunction<T> factory) {
+        this(size, factory, System::nanoTime);
+    }
+
     LazyPageList(int size, IntFunction<T> factory, LongSupplier clock) {
         if (size < 0) throw new IllegalArgumentException("negative size");
         this.size = size;
         this.factory = Objects.requireNonNull(factory);
         this.clock = Objects.requireNonNull(clock);
     }
+
     @Override
-    public int size() { return size; }
+    public int size() {
+        return size;
+    }
+
     @Override
     public T get(int index) {
         Objects.checkIndex(index, size);
@@ -44,7 +51,10 @@ public final class LazyPageList<T> extends AbstractList<T> {
             for (Integer key : cache.keySet()) {
                 if (key < from || key >= to) {
                     if (victim == null) victim = key;
-                    if (!isNearby(key)) { victim = key; break; }
+                    if (!isNearby(key)) {
+                        victim = key;
+                        break;
+                    }
                 }
             }
             if (victim == null) victim = cache.keySet().iterator().next();
@@ -53,12 +63,14 @@ public final class LazyPageList<T> extends AbstractList<T> {
         cache.put(index, value);
         return value;
     }
+
     private boolean isNearby(int index) {
         int page = Math.max(1, to - from);
         long low = (long) from - (direction > 0 ? (long) BACKWARD_PAGES : FORWARD_PAGES) * page;
         long high = (long) to + (direction > 0 ? (long) FORWARD_PAGES : BACKWARD_PAGES) * page;
         return index >= low && index < high;
     }
+
     public void visibleRange(int start, int end) {
         Objects.checkFromToIndex(start, end, size);
         if (warming && start == from && end == to) return;
@@ -83,7 +95,8 @@ public final class LazyPageList<T> extends AbstractList<T> {
         nearCursor = 0;
         warming = page > 0;
     }
-    /** 预算只限制是否继续创建；单条布局创建不能中途抢占。 */
+
+    // 预算只限制是否继续创建；单条布局创建不能中途抢占。
     public void warm() {
         if (!warming) return;
         long now = clock.getAsLong();
@@ -98,9 +111,13 @@ public final class LazyPageList<T> extends AbstractList<T> {
                 if (cache.size() >= CAPACITY || farCursor >= size) return;
                 index = farCursor++;
             }
-            if (!cache.containsKey(index)) { get(index); built++; }
+            if (!cache.containsKey(index)) {
+                get(index);
+                built++;
+            }
         }
     }
+
     public void clearCache() {
         cache.clear();
         nearby = new int[0];
@@ -108,6 +125,12 @@ public final class LazyPageList<T> extends AbstractList<T> {
         direction = 1;
         warming = hasBatch = false;
     }
-    int cachedCount() { return cache.size(); }
-    boolean isCached(int index) { return cache.containsKey(index); }
+
+    int cachedCount() {
+        return cache.size();
+    }
+
+    boolean isCached(int index) {
+        return cache.containsKey(index);
+    }
 }

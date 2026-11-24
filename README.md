@@ -2,6 +2,8 @@
 
 按需加载铁魔法奥术铁砧的 JEI 配方布局，减少打开配方页面时的卡顿。适用于 Minecraft 1.20.1 Forge 客户端。
 
+奥术铁砧按原配方顺序显示，跳过收藏优先和可制作优先排序。已适配至 JEI 15.75.0.242。Forge 版 15.70.0.221 和 15.71.0.222 存在搜索框悬停问题，建议使用 15.71.0.223 或更新的受支持版本。
+
 ## 编译
 
-使用 JDK 21，将完整的 JEI Forge 文件 `jei-1.20.1-forge-15.20.0.132.jar` 放入 `libs/`，运行 `.\gradlew.bat clean build`（Linux 或 macOS 使用 `./gradlew clean build`）。生成的模组位于 `build/libs/`。
+使用 JDK 21，运行 `.\gradlew.bat build`（Linux 或 macOS 使用 `./gradlew build`）。产物位于 `build/libs/`。
