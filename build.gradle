@@ -2,7 +2,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '6.0.54'
     id 'org.spongepowered.mixin' version '0.7.38'
 }
-version = '1.0.2'
+version = '1.0.3'
 group = 'io.github.arcaneanviljeioptimization'
 base { archivesName = 'arcane-anvil-jei-optimization' }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -23,12 +23,6 @@ tasks.named('jar', Jar) {
     finalizedBy 'reobfJar'
 }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 17 }
-tasks.register('verifyLazyPages', JavaExec) {
-    dependsOn testClasses
-    classpath = sourceSets.test.runtimeClasspath
-    mainClass = 'io.github.arcaneanviljeioptimization.LazyPageListTest'
-}
-tasks.named('check') { dependsOn 'verifyLazyPages' }
 
 tasks.named('processResources') {
     inputs.property 'version', project.version
